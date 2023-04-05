@@ -100,24 +100,36 @@ for tweet in tweets:
     created_at = tweet.created_at.astimezone(kst)  # 대한민국 시간대로 변환
     full_text = tweet.full_text
 
-    # SQL 문 작성
-    insert_query = sql.SQL(
-        "INSERT INTO {} ({}, {}, {}, {}) VALUES (%s, %s, %s, %s)"
-    ).format(
-        sql.Identifier(table_name),  # 수정된 부분
-        sql.Identifier("author_name"),
-        sql.Identifier("author_screen_name"),
-        sql.Identifier("created_at"),
-        sql.Identifier("full_text"),
-    )
+    # 중복 데이터 확인을 위한 SQL 문 작성
+    check_duplicate_query = sql.SQL(
+        "SELECT COUNT(*) FROM {} WHERE full_text = %s AND created_at = %s"
+    ).format(sql.Identifier(table_name))
 
-    # 크롤링 결과 DB 저장
-    try:
-        cur.execute(insert_query, (author_name, author_screen_name, created_at, full_text))
-        conn.commit()
-    except Exception as e:
-        print(f"Error: {e}")
-        continue
+    # 중복 데이터 확인
+    cur.execute(check_duplicate_query, (full_text, created_at))
+    duplicate_count = cur.fetchone()[0]
+
+    # 중복 데이터가 없을 경우에만 저장
+    if duplicate_count == 0:
+        # SQL 문 작성
+        insert_query = sql.SQL(
+            "INSERT INTO {} ({}, {}, {}, {}) VALUES (%s, %s, %s, %s)"
+        ).format(
+            sql.Identifier(table_name),  # 수정된 부분
+            sql.Identifier("author_name"),
+            sql.Identifier("author_screen_name"),
+            sql.Identifier("created_at"),
+            sql.Identifier("full_text"),
+        )
+
+        # 크롤링 결과 DB 저장
+        try:
+            cur.execute(insert_query, (author_name, author_screen_name, created_at, full_text))
+            conn.commit()
+        except Exception as e:
+            print(f"Error: {e}")
+            continue
+
 
 # DB 연결 해제
 cur.close()
