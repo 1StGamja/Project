@@ -28,5 +28,7 @@ else
   echo "cronjob2: 실패" >> $LOG_FILE
 fi
 
-# 로그 파일 출력
-cat $LOG_FILE
+# 로그 파일 출력 (작업 이름과 결과 함께 출력)
+echo "============================="
+echo "Cron 작업 확인 - $(date)"
+cat $LOG_FILE | awk -F ':' '{print $1" 작업: "$2}'
