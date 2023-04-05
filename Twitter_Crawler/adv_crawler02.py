@@ -76,10 +76,10 @@ for keyword in keywords:
     tweets = []
     try:
         for tweet in tweepy.Cursor(api.search_tweets, q=keyword, tweet_mode="extended", lang="ko").items(1000):
-            # 현재 시간 기준 30분 이내의 트윗인지 확인
+            # 현재 시간 기준 10분 이내의 트윗인지 확인
             current_time = datetime.now(pytz.utc)
             tweet_age = current_time - tweet.created_at
-            if tweet_age <= timedelta(minutes=30):
+            if tweet_age <= timedelta(minutes=10):
                 if not tweet.retweeted and 'RT @' not in tweet.full_text:
                     # 대한민국 시간대로 변환
                     created_at_kst = tweet.created_at.astimezone(kst)
