@@ -3,6 +3,7 @@ import psycopg2
 import tweepy
 import time
 import random
+import datetime
 
 # conn.conf 파일에서 API 정보와 DB 접속 정보를 가져옴
 config = configparser.ConfigParser()
@@ -32,6 +33,9 @@ cur = conn.cursor()
 cur.execute("SELECT DISTINCT author_screen_name FROM public.twt_jg_20230409;")
 users = cur.fetchall()
 
+# 현재 시간을 가져옴
+now = datetime.datetime.now()
+
 # 각 사용자들에게 DM 메시지를 보냄
 for user in users:
     try:
@@ -40,8 +44,16 @@ for user in users:
         print("DM sent to {}".format(user[0]))
         sleep_time = random.uniform(0.5, 3.0)
         time.sleep(sleep_time)
+        # DM 전송 결과를 PostgreSQL DB에 저장함
+        cur.execute("INSERT INTO public.twt_dm_send_result (user_screen_name, sent_time, message, result) VALUES (%s, %s, %s, %s);",
+                    (user[0], now, "안녕하세요. 반가워요. 혹시 가능하세요?", "Success"))
+        conn.commit()
     except tweepy.TweepError as e:
         print("Failed to send DM to {}: {}".format(user[0], e))
+        # DM 전송 결과를 PostgreSQL DB에 저장함
+        cur.execute("INSERT INTO public.twt_dm_send_result (user_screen_name, sent_time, message, result) VALUES (%s, %s, %s, %s);",
+                    (user[0], now, "안녕하세요. 반가워요. 혹시 가능하세요?", "Fail"))
+        conn.commit()
 
 # DB 연결을 닫음
 cur.close()

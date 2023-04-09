@@ -2,13 +2,18 @@ import requests
 from bs4 import BeautifulSoup
 import psycopg2
 from datetime import datetime
+import configparser
+
+# Load the configuration from 'conn.conf'
+config = configparser.ConfigParser()
+config.read('/home/heewonyu/Project/Project/Twitter_Crawler/conn.conf')
 
 # PostgreSQL 데이터베이스 연결 설정
-db_host = 'localhost'
-db_user = 'postgres'
-db_password = 'dlQmsdl00'
-db_port = '5432'
-db_name = 'postgres'
+db_host = config.get('postgres', 'host')
+db_port = config.get('postgres', 'port')
+db_name = config.get('postgres', 'dbname')
+db_user = config.get('postgres', 'user')
+db_password = config.get('postgres', 'password')
 
 # 현재 날짜 가져오기
 now = datetime.now()

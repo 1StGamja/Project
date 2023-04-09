@@ -9,10 +9,10 @@ config = configparser.ConfigParser()
 config.read('/home/heewonyu/Project/Project/Twitter_Crawler/conn.conf')
 
 # Twitter API authentication information
-consumer_key = config.get('twitter', 'consumer_key')
-consumer_secret = config.get('twitter', 'consumer_secret')
-access_token = config.get('twitter', 'access_token')
-access_token_secret = config.get('twitter', 'access_token_secret')
+consumer_key = config.get('twitter_api', 'consumer_key')
+consumer_secret = config.get('twitter_api', 'consumer_secret')
+access_token = config.get('twitter_api', 'access_token')
+access_token_secret = config.get('twitter_api', 'access_token_secret')
 
 # PostgreSQL DB connection information
 DB_HOST = config.get('postgres', 'host')
