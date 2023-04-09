@@ -67,7 +67,7 @@ def execute_query(query, data=None):
 
 
 # 테이블 생성 (존재하지 않는 경우에만)
-table_name = f"TWT_jg_{datetime.now().strftime('%Y%m%d')}"
+table_name = f"twt_jg_{datetime.now().strftime('%Y%m%d')}"
 create_table_query = f"""
 CREATE TABLE IF NOT EXISTS {table_name} (
     id SERIAL PRIMARY KEY,

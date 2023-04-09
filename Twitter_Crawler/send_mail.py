@@ -32,7 +32,7 @@ conn = psycopg2.connect(
 )
 
 # SELECT 쿼리문
-query = 'SELECT * FROM public."twt_%s" WHERE created_at >= now() - interval \'10 minutes\''
+query = 'SELECT * FROM public."twt_jg_%s" WHERE created_at >= now() - interval \'10 minutes\''
 
 # 마지막으로 검색된 레코드 ID
 last_record_id = None
