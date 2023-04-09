@@ -19,10 +19,10 @@ password = "dlQmsdl00"
 # );
 
 # Twitter API 인증 정보
-consumer_key = "d6Olnocpg0mmlcDz2Rg8R7v2H"
-consumer_secret = "FHZHPwRXyivlfSIwbuvzl1fG0N7HWzciWi1mL8HBxxsbwDeUEN"
-access_token = "1000388956737888256-eWjWZcxpXBytTwd0j9to9XD7SC2xOG"
-access_token_secret = "ncPcuI0zdl4d8zJSyNZFp6oUPviP4s7miig584SgHfPzf"
+consumer_key = "h5NqBorp4shgZDEw1zs2ByNcQ"
+consumer_secret = "lCUa3VfRGT0pb0fV76sXiuPYzpMfyHkJK6Z7Q0XnJJroiwyks9"
+access_token = "1000388956737888256-cOk32BQ2UQN2tilwVYbo4vslQciEMy"
+access_token_secret = "YDkPvLixL85MiLCPxv4ZjTBZfjSoVRUC7WciTqJMOY8AF"
 
 # OAuth 인증
 auth = tweepy.OAuth1UserHandler(
