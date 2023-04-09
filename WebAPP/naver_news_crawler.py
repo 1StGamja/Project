@@ -17,9 +17,10 @@ for i in range(0, 100, 10):
         content_url = article.select_one('a.news_tit')['href']
         content_response = requests.get(content_url)
         content_soup = BeautifulSoup(content_response.text, 'html.parser')
-        content_element = content_soup.select('#articleBodyContents')
+        content_element = content_soup.select_one('#sp_nws1 > div > div > div.news_dsc')
         if content_element:
-            content = content_element[0].text.replace('\n', '').replace('\t', '').strip()
+            content = content_element.text.strip()
+            content = content.replace('\n', '').replace('\t', '').replace('  ', '')
         else:
             content = ''
         print(f"언론사: {press}")
