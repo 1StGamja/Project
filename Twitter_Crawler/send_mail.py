@@ -8,11 +8,11 @@ config = configparser.ConfigParser()
 config.read('/home/heewonyu/Project/Project/Twitter_Crawler/conn.conf')
 
 # PostgreSQL DB 접속 정보
-DB_HOST = config.get('DB', 'DB_HOST')
-DB_PORT = config.getint('DB', 'DB_PORT')
-DB_NAME = config.get('DB', 'DB_NAME')
-DB_USER = config.get('DB', 'DB_USER')
-DB_PASS = config.get('DB', 'DB_PASS')
+DB_HOST = config.get('postgres', 'host')
+DB_PORT = config.getint('postgres', 'port')
+DB_NAME = config.get('postgres', 'dbname')
+DB_USER = config.get('postgres', 'user')
+DB_PASS = config.get('postgres', 'password')
 
 # 이메일 설정
 SMTP_SERVER = config.get('GMAIL', 'SMTP_SERVER')
@@ -32,7 +32,7 @@ conn = psycopg2.connect(
 )
 
 # SELECT 쿼리문
-query = 'SELECT * FROM public."TW_%s" WHERE created_at >= now() - interval \'10 minutes\''
+query = 'SELECT * FROM public."twt_%s" WHERE created_at >= now() - interval \'10 minutes\''
 
 # 마지막으로 검색된 레코드 ID
 last_record_id = None

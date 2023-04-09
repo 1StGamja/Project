@@ -29,10 +29,11 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 # 검색할 키워드 정의
-keywords = ["해킹", "보안", "정보보호", "정보보안", "개인정보", "유출"]
+keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ"]
+keywords2 = ["남양주", "의정부", "부천", "청라", "인천", "김포", "일산", "고양", "파주", "목동", "양천", "영등포"]
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
-search_query = " OR ".join(keywords) + " -filter:retweets -filter:mentions"
+search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:남고딩"
 
 
 # 현재 시간에서 1시간 전 시간 계산
@@ -66,7 +67,7 @@ def execute_query(query, data=None):
 
 
 # 테이블 생성 (존재하지 않는 경우에만)
-table_name = f"TWT_{datetime.now().strftime('%Y%m%d')}"
+table_name = f"TWT_jg_{datetime.now().strftime('%Y%m%d')}"
 create_table_query = f"""
 CREATE TABLE IF NOT EXISTS {table_name} (
     id SERIAL PRIMARY KEY,
