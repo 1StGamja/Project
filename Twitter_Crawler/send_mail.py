@@ -52,8 +52,11 @@ while True:
             new_record = True
             last_record_id = record_id
             # 작성자명, 작성자 계정, 작성 시간, 작성 내용을 이메일 본문에 추가
-            message_body += '작성자: {}\n'.format(record[1])
-            message_body += '작성자 계정: {}\n'.format(record[2])
+            author_name = record[1]
+            author_account = record[2]
+            author_link = 'https://twitter.com/' + author_account
+            message_body += '작성자: {}\n'.format(author_name)
+            message_body += '작성자 계정: <a href="{}">{}</a>\n'.format(author_link, author_account)
             message_body += '작성 시간: {}\n'.format(record[3])
             message_body += '작성 내용: {}\n\n'.format(record[4])
     

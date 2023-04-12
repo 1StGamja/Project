@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/heewonyu/Project/Project/Twitter_Crawler/send_mail.py", line 11, in <module>
+    DB_HOST = config.get('postgres', 'host')
+  File "/usr/lib/python3.10/configparser.py", line 782, in get
+    d = self._unify_values(section, vars)
+  File "/usr/lib/python3.10/configparser.py", line 1153, in _unify_values
+    raise NoSectionError(section) from None
+configparser.NoSectionError: No section: 'postgres'
