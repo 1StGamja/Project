@@ -30,13 +30,13 @@ api = tweepy.API(auth)
 
 # 검색할 키워드 정의
 keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ", "미자", "가출"]
-keywords2 = ["남양주", "의정부", "부천", "청라", "인천", "김포", "일산", "고양", "파주"]
+keywords2 = ["영등포", "목동", "양천", "강서", "화곡", "방화", "당산", "신월", "신정", "등촌", "가양"]
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
 search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:여성분 -filter:남고딩"
 
 
-# 현재 시간에서 1시간 전 시간 계산
+# 현재 시간에서 1시간 전 시간 계산동
 now = datetime.utcnow()
 one_hour_ago = now - timedelta(hours=1)
 
@@ -67,7 +67,7 @@ def execute_query(query, data=None):
 
 
 # 테이블 생성 (존재하지 않는 경우에만)
-table_name = f"twt_jg_{datetime.now().strftime('%Y%m%d')}"
+table_name = f"twt_youngdeungpo_{datetime.now().strftime('%Y%m%d')}"
 create_table_query = f"""
 CREATE TABLE IF NOT EXISTS {table_name} (
     id SERIAL PRIMARY KEY,

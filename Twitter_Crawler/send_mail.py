@@ -46,6 +46,7 @@ while True:
     # 결과 레코드 확인
     new_record = False
     message_body = ''
+    new_tweet_count = 0  # 새로 크롤링된 트윗 수를 저장할 변수 추가
     for record in cur.fetchall():
         record_id = record[0]
         if last_record_id is None or record_id > last_record_id:
@@ -59,11 +60,12 @@ while True:
             message_body += '작성자 계정: <a href="{}">{}</a>\n'.format(author_link, author_account)
             message_body += '작성 시간: {}\n'.format(record[3])
             message_body += '작성 내용: {}\n\n'.format(record[4])
-    
+            new_tweet_count += 1  # 새로운 트윗 발견시마다 카운트 증가
+
     # 새 레코드가 생성된 경우 이메일 발송
     if new_record:
-        # 현재 날짜와 시간을 메일 제목에 포함
-        subject = '[{}]새로운 트윗 알림!'.format(time.strftime('%Y-%m-%d %H:%M'))
+        # 현재 날짜와 시간을 메일 제목에 포함하고, 새로 크롤링된 트윗 수를 괄호 안에 추가
+        subject = '[{}]새로운 트윗 알림! ({})'.format(time.strftime('%Y-%m-%d %H:%M'), new_tweet_count)
         
         message = MIMEText(message_body)
         message['Subject'] = subject
