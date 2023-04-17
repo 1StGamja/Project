@@ -1,0 +1,11 @@
+<!doctype html>
+<html>
+<head>
+    <title>주소록 관리</title>
+</head>
+<body>
+    <h1>새로운 주소록 항목 추가</h1>
+    <form action="{{ url_for('create') }}" method="post">
+        <!-- 입력 필드를 생성하고 유효성 검사를 적용하십시오. -->
+        <label for="name">이름:</label>
+        <input type="text" name="name" required pattern="[\uac00-\ud7
