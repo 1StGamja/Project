@@ -68,28 +68,3 @@ def delete_member(member_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-@app.route('/member/<int:member_id>/update', methods=['POST'])
-def update_member(member_id):
-    name = request.form['name']
-    phone = request.form['phone']
-    email = request.form['email']
-    company = request.form['company']
-    memo = request.form['memo']
-
-    member = Member.query.get(member_id)
-    member.name = name
-    member.phone = phone
-    member.email = email
-    member.company = company
-    member.memo = memo
-
-    db.session.commit()
-
-    return redirect(url_for('detail_member', member_id=member_id))
-
-@app.route('/member/<int:member_id>')
-def detail_member(member_id):
-    member = Member.query.get(member_id)
-    return render_template('detail.html', member=member)
-
