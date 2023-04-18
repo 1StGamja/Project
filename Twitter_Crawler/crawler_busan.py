@@ -30,8 +30,7 @@ api = tweepy.API(auth)
 
 # 검색할 키워드 정의
 keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ", "미자", "가출"]
-keywords2 = ["용인", "분당", "성남", "수원", "죽전"]
-
+keywords2 = ["부산"]
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
 search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:출장 -filter:여성분 -filter:남고딩"
@@ -68,25 +67,24 @@ def execute_query(query, data=None):
 
 
 # 테이블 생성 (존재하지 않는 경우에만)
-table_name = f"twt_jogeon_{datetime.now().strftime('%Y%m%d')}"
+table_name = f"twt_daegu_{datetime.now().strftime('%Y%m%d')}"
 create_table_query = f"""
 CREATE TABLE IF NOT EXISTS {table_name} (
     id SERIAL PRIMARY KEY,
     author_name VARCHAR(255),
     author_screen_name VARCHAR(255),
     created_at TIMESTAMP,
-    full_text TEXT,
-    keyword VARCHAR(255)
+    full_text TEXT
 );
 """
-
 
 execute_query(create_table_query)
 
 # 크롤링한 트윗을 PostgreSQL에 저장하는 함수
 def save_tweet_to_db(tweet):
     korean_created_at = tweet.created_at.replace(tzinfo=pytz.utc).astimezone(south_korea_tz)
-
+    
+    # 동일한 작성자 계정과 내용을 가진 트윗이 있는지 확인
     check_query = f"""
     SELECT COUNT(*) FROM {table_name}
     WHERE author_screen_name = %s AND full_text = %s
@@ -94,13 +92,13 @@ def save_tweet_to_db(tweet):
     execute_query(check_query, (tweet.user.screen_name, tweet.full_text))
     count = cur.fetchone()[0]
 
+    # 동일한 작성자 계정과 내용을 가진 트윗이 없으면 저장
     if count == 0:
         insert_query = f"""
-        INSERT INTO {table_name} (author_name, author_screen_name, created_at, full_text, keyword)
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO {table_name} (author_name, author_screen_name, created_at, full_text)
+        VALUES (%s, %s, %s, %s)
         """
-        execute_query(insert_query, (tweet.user.name, tweet.user.screen_name, korean_created_at, tweet.full_text, keywords2[0]))
-
+        execute_query(insert_query, (tweet.user.name, tweet.user.screen_name, korean_created_at, tweet.full_text))
 
 # 크롤링한 트윗 출력 및 저장
 for tweet in tweets:
@@ -119,4 +117,3 @@ for tweet in tweets:
 
 # 연결 종료
 conn.close()
-

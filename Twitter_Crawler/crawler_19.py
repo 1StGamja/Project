@@ -30,11 +30,11 @@ api = tweepy.API(auth)
 
 # 검색할 키워드 정의
 keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ", "미자", "가출"]
-keywords2 = ["용인", "분당", "성남", "수원", "죽전"]
-
+keywords2 = ["김포", "일산", "인천", "고양", "강화", "송도", "영종", "파주", "서울"]
+keywords3 = ["15", "16", "17", "18", "19", "중1", "중2", "중3", "고1", "고2", "고3"]
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
-search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:출장 -filter:여성분 -filter:남고딩"
+search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") AND (" + " OR ".join(keywords3) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:출장 -filter:여성분 -filter:남고딩"
 
 
 # 현재 시간에서 1시간 전 시간 계산동
@@ -99,7 +99,7 @@ def save_tweet_to_db(tweet):
         INSERT INTO {table_name} (author_name, author_screen_name, created_at, full_text, keyword)
         VALUES (%s, %s, %s, %s, %s)
         """
-        execute_query(insert_query, (tweet.user.name, tweet.user.screen_name, korean_created_at, tweet.full_text, keywords2[0]))
+        execute_query(insert_query, (tweet.user.name, tweet.user.screen_name, korean_created_at, tweet.full_text, keywords3[0]))
 
 
 # 크롤링한 트윗 출력 및 저장
@@ -119,4 +119,3 @@ for tweet in tweets:
 
 # 연결 종료
 conn.close()
-

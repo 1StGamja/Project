@@ -30,8 +30,7 @@ api = tweepy.API(auth)
 
 # 검색할 키워드 정의
 keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ", "미자", "가출"]
-keywords2 = ["용인", "분당", "성남", "수원", "죽전"]
-
+keywords2 = ["전주", "완주", "삼례", "봉동", "익산", "군산"]
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
 search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:출장 -filter:여성분 -filter:남고딩"
@@ -119,4 +118,9 @@ for tweet in tweets:
 
 # 연결 종료
 conn.close()
+
+
+
+
+
 

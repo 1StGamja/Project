@@ -3,6 +3,7 @@ import time
 import smtplib
 from email.mime.text import MIMEText
 import configparser
+from collections import defaultdict
 
 config = configparser.ConfigParser()
 config.read('/home/heewonyu/Project/Project/Twitter_Crawler/conn.conf')
@@ -44,15 +45,18 @@ while True:
     cur.execute(query % year_month_day)
     
     # 결과 레코드 확인
-    new_record = False
-    message_body = ''
-    new_tweet_count = 0  # 새로 크롤링된 트윗 수를 저장할 변수 추가
+    new_records = defaultdict(list)
     for record in cur.fetchall():
         record_id = record[0]
+        keyword = record[5]  # keyword 칼럼 추가
         if last_record_id is None or record_id > last_record_id:
-            new_record = True
+            new_records[keyword].append(record)
             last_record_id = record_id
-            # 작성자명, 작성자 계정, 작성 시간, 작성 내용을 이메일 본문에 추가
+
+    # 새 레코드가 생성된 경우 이메일 발송
+    for keyword, records in new_records.items():
+        message_body = ''
+        for record in records:
             author_name = record[1]
             author_account = record[2]
             author_link = 'https://twitter.com/' + author_account
@@ -60,22 +64,20 @@ while True:
             message_body += '작성자 계정: <a href="{}">{}</a>\n'.format(author_link, author_account)
             message_body += '작성 시간: {}\n'.format(record[3])
             message_body += '작성 내용: {}\n\n'.format(record[4])
-            new_tweet_count += 1  # 새로운 트윗 발견시마다 카운트 증가
 
-    # 새 레코드가 생성된 경우 이메일 발송
-    if new_record:
-        # 현재 날짜와 시간을 메일 제목에 포함하고, 새로 크롤링된 트윗 수를 괄호 안에 추가
-        subject = '[{}]새로운 트윗 알림! ({})'.format(time.strftime('%Y-%m-%d %H:%M'), new_tweet_count)
-        
+        # 현재 날짜와 시간을 메일 제목에 포함하고, 키워드를 추가
+        subject = '[{}][{}] 트윗 알림! ({})'.format(time.strftime('%Y-%m-%d %H:%M'), keyword, len(records))
+
         message = MIMEText(message_body)
         message['Subject'] = subject
         message['From'] = EMAIL_FROM
         message['To'] = EMAIL_TO
+
         smtp = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
         smtp.starttls()
         smtp.login(EMAIL_USER, EMAIL_PASS)
         smtp.sendmail(EMAIL_FROM, [EMAIL_TO], message.as_string())
         smtp.quit()
-    
+
     # 10초 대기
     time.sleep(10)
