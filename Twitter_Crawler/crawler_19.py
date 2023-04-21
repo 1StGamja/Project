@@ -30,11 +30,29 @@ api = tweepy.API(auth)
 
 # 검색할 키워드 정의
 keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ", "미자", "가출"]
-keywords2 = ["김포", "일산", "인천", "고양", "강화", "송도", "영종", "파주", "서울"]
-keywords3 = ["15", "16", "17", "18", "19", "중1", "중2", "중3", "고1", "고2", "고3"]
+keywords2 = ["서울", "영등포"]
+keywords3 = ["15", "16", "17", "18", "19", "중1", "중2", "중3", "고1", "고2", "고3", "중딩", "고딩"]
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
-search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") AND (" + " OR ".join(keywords3) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:출장 -filter:여성분 -filter:남고딩"
+search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") AND (" + " OR ".join(keywords3) + ") -filter:retweets -filter:mentions -filter:links -filter:\"남자\" -filter:\"출장\" -filter:\"여성분\" -filter:\"남고딩\""
+
+# exclude_keywords = [
+#     "RT", "@", "http://", "https://", "야한맛", "친해지고", "남자임", "여자분",
+#     "여성분", "밤운동", "비떱", "심심햇", "ㅅㅅ", "팔로", "빨리고", "술한잔", "잘래", "밤운동"
+# ]
+
+# exclude_query = " -" + " -".join(exclude_keywords)
+
+# search_query = (
+#     "("
+#     + " OR ".join(keywords1)
+#     + ") AND ("
+#     + " OR ".join(keywords2)
+#     + ") AND ("
+#     + " OR ".join(keywords3)
+#     + ")"
+#     + exclude_query
+# )
 
 
 # 현재 시간에서 1시간 전 시간 계산동

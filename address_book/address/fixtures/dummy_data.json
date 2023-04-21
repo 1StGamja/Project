@@ -1,0 +1,13 @@
+[
+    {
+        "model": "address.Address",
+        "pk": 1,
+        "fields": {
+            "name": "Alice",
+            "phone_number": "010-1234-5678",
+            "email": "alice@example.com",
+            "company_name": "ABC Inc.",
+            "relationship": "Friend"
+        }
+    }
+]

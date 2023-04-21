@@ -30,12 +30,14 @@ api = tweepy.API(auth)
 
 # 검색할 키워드 정의
 keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ", "미자", "가출"]
-keywords2 = ["부천", "부평", "시흥", "광명", "안산", "시화"]
+keywords2 = ["부천", "군포", "산본", "안양", "부평", "시흥", "광명", "안산", "시화"]
 
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
-search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:출장 -filter:여성분 -filter:남고딩"
+# search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:\"남자\" -filter:\"출장\" -filter:\"여성분\" -filter:\"남자고\" -filter:\"야한맛\" -filter:\"여자분\" -filter:\"밤운동\" -filter:\"ㅅㅅ\" -filter:\"비떱\" -filter:\"팔로\" -filter:\"술한잔\" -filter:\"잘래\" -filter:\"심심햇\" -filter:\"남자임\"-filter:\"남고딩\""
 
+
+search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:\"남자\" -filter:\"출장\" -filter:\"여성분\" -filter:\"남고딩\""
 
 # 현재 시간에서 1시간 전 시간 계산동
 now = datetime.utcnow()

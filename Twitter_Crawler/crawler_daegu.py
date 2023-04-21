@@ -33,7 +33,7 @@ keywords1 = ["간단", "조건", "ㅈㄱ", "ㄱㄷ", "미자", "가출"]
 keywords2 = ["대구"]
 
 # 키워드를 OR로 연결한 검색 쿼리 정의
-search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:남자 -filter:출장 -filter:여성분 -filter:남고딩"
+search_query = "(" + " OR ".join(keywords1) + ") AND (" + " OR ".join(keywords2) + ") -filter:retweets -filter:mentions -filter:links -filter:\"남자\" -filter:\"출장\" -filter:\"여성분\" -filter:\"남고딩\""
 
 
 # 현재 시간에서 1시간 전 시간 계산동

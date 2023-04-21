@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter 조회 화면</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6Gvk/e3S4x20X9gtD5v5hEm" crossorigin="anonymous">
+    <!-- Add custom CSS -->
+    <style>
+        .table-bordered th, .table-bordered td {
+            border-color: #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <!-- Add filter form -->
+    <form class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <select class="form-select" name="keyword_filter">
+                    <option value="">전체</option>
+                    {% for keyword in keywords %}
+                        <option value="{{ keyword }}" {% if keyword == keyword_filter %}selected{% endif %}}>{{ keyword }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">작성일</th>
+                <th scope="col">작성자명</th>
+                <th scope="col">작성자계정</th>
+                <th scope="col">키워드</th>
+                <th scope="col">내용</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <th scope="row">{{ result[0] }}</th>
+                    <td><span data-bs-toggle="tooltip" title="{{ result[1].strftime('%Y-%m-%d %H:%M:%S') }}">{{ result[1].strftime('%Y-%m-%d %H:%M:%S')[:20] + ('...' if result[1].strftime('%Y-%m-%d %H:%M:%S')|length > 20 else '') }}</span></td>
+                    <td><span data-bs-toggle="tooltip" title="{{ result[2] }}">{{ result[2][:15] + ('...' if result[2]|length > 15 else '') }}</span></td>
+                    <td><span data-bs-toggle="tooltip" title="{{ result[3] }}"><a href="https://twitter.com/{{ result[3] }}" target="_blank">{{ result[3][:30] + ('...' if result[3]|length > 30 else '') }}</a></span></td>
+                    <td><span data-bs-toggle="tooltip" title="{{ result[4] }}">{{ result[4][:6] + ('...' if result[4]|length > 6 else '') }}</span></td>
+                    <td><span data-bs-toggle="tooltip" title="{{ result[5] }}">{{ result[5][:50] + ('...' if result[5]|length > 50 else '') }}</span></td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% for page_num in range(1, total_pages+1) %}
+                <li class="page-item {% if page == page_num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+<!-- Add Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybB5i6B5VnSnC2D03M4P//El//x/viBJ6U2Q2C1E6A2270BPu" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+<!-- Initialize tooltips -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    })
+</script>
+</body>
+</html>
+
