@@ -33,7 +33,8 @@ conn = psycopg2.connect(
 )
 
 # SELECT 쿼리문
-query = 'SELECT * FROM public."twt_jogeon_%s" WHERE created_at >= now() - interval \'10 minutes\''
+# query = 'SELECT * FROM public."twt_jogeon_%s" WHERE created_at >= now() - interval \'10 minutes\''
+query = 'SELECT * FROM public."twt_jogeon_%s" WHERE created_at >= now() - interval \'1 hour\''
 
 # 마지막으로 검색된 레코드 ID
 last_record_id = None
@@ -80,4 +81,5 @@ while True:
         smtp.quit()
 
     # 10초 대기
-    time.sleep(10)
+    # time.sleep(10)
+    time.sleep(3600)
